@@ -2388,7 +2388,7 @@ html[data-theme="dark"] .divider{ background: rgba(212,175,55,.18) !important; }
   --sans:'Assistant',sans-serif;
 }
 
-html{ color-scheme: light; }
+html{ color-scheme: dark; }
 body{
   background: radial-gradient(900px 520px at 20% -10%, rgba(193,154,107,.10), transparent 60%),
               radial-gradient(900px 520px at 90% 10%, rgba(193,154,107,.06), transparent 55%),
@@ -3649,7 +3649,240 @@ body.is-loaded .hero-media .hero-img{
 }
 
 
-/* Cleanup pass: keep site light-only and hide legacy theme controls */
-html{ color-scheme: light; }
-#themeToggle, .theme-toggle{ display:none !important; }
-html[data-theme="dark"] body{ background: var(--bg0) !important; color: var(--ink) !important; }
+/* ============================================================
+   2026-03 clean pass — stable light layout + memorial page view fixes
+   ============================================================ */
+
+html, body{
+  color-scheme: light !important;
+}
+
+.site-header{
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+  min-height: 72px !important;
+}
+
+main.fade-in,
+main#main{
+  padding-top: 18px !important;
+}
+
+.wrap{
+  max-width: 1180px !important;
+}
+
+/* Keep top navigation usable without crowding */
+.site-header .wrap.nav{
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+
+.site-nav{
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+.pill,
+.cta,
+.btn{
+  border-radius: 999px !important;
+}
+
+/* Person page layout cleanup */
+.memorial-container{
+  max-width: 1180px !important;
+  margin: 0 auto !important;
+  padding: 0 16px 28px !important;
+}
+
+.memorial-shell{
+  border-radius: 28px !important;
+  padding: 26px !important;
+  background: rgba(255,253,249,.96) !important;
+  box-shadow: 0 18px 46px rgba(43,38,28,.08) !important;
+}
+
+.memorial-header{
+  display: block !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--stroke2) !important;
+  border-radius: 0 !important;
+  padding: 0 0 18px !important;
+  margin: 0 0 24px !important;
+}
+
+.memorial-header h1{
+  margin: 0 0 10px !important;
+  font-size: clamp(2.1rem, 4vw, 3.4rem) !important;
+  line-height: 1.15 !important;
+}
+
+.memorial-header p{
+  margin: 0 !important;
+  color: var(--muted) !important;
+  font-size: 1.03rem !important;
+}
+
+.memorial-grid{
+  display: grid !important;
+  gap: 26px !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  align-items: start !important;
+}
+
+@media (min-width: 980px){
+  .memorial-grid{
+    grid-template-columns: minmax(0, 1fr) 360px !important;
+  }
+}
+
+.memorial-photo{
+  background: rgba(255,255,255,.72) !important;
+  border: 1px solid var(--stroke2) !important;
+  border-radius: 24px !important;
+  padding: 14px !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+  overflow: visible !important;
+}
+
+.memorial-photo .profile-img{
+  display: block !important;
+  width: 100% !important;
+  max-width: 560px !important;
+  margin: 0 auto !important;
+  aspect-ratio: 4 / 3 !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border-radius: 22px !important;
+  box-shadow: 0 16px 40px rgba(43,38,28,.08) !important;
+}
+
+.photo-note{
+  margin-top: 12px !important;
+  text-align: center !important;
+}
+
+.id-card{
+  position: sticky !important;
+  top: 92px !important;
+  border-radius: 22px !important;
+  padding: 18px !important;
+}
+
+.id-card h2,
+.section-title,
+.story-section h2{
+  font-size: 1.35rem !important;
+  margin-bottom: 12px !important;
+}
+
+.id-dl > div{
+  padding: 12px 14px !important;
+  border-radius: 16px !important;
+  margin-bottom: 10px !important;
+}
+
+.person-actions{
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  align-items: center !important;
+}
+
+.person-actions .btn{
+  flex: 1 1 150px !important;
+  min-height: 44px !important;
+}
+
+.story-section{
+  margin-top: 26px !important;
+  padding-top: 18px !important;
+  column-count: 1 !important;
+  background: rgba(255,253,249,.96) !important;
+  border-radius: 22px !important;
+}
+
+.story-section p{
+  max-width: 72ch !important;
+  font-size: 1.06rem !important;
+}
+
+blockquote.quote,
+.story-highlight{
+  max-width: 44ch !important;
+  margin: 18px 0 0 !important;
+}
+
+.story-highlight.is-overlay{
+  position: static !important;
+  margin-inline-start: 0 !important;
+}
+
+.navigation-links{
+  justify-content: center !important;
+  gap: 12px !important;
+}
+
+.navigation-links a{
+  min-width: 160px !important;
+  text-align: center !important;
+}
+
+/* Directory/hero sections on main pages: keep lighter and more balanced */
+.page-hero .card,
+.hero-card,
+.hero,
+.home-hero{
+  background: linear-gradient(180deg, rgba(255,253,249,.96), rgba(245,239,227,.94)) !important;
+  border: 1px solid var(--stroke2) !important;
+  box-shadow: 0 18px 46px rgba(43,38,28,.08) !important;
+}
+
+.page-hero .card::after,
+.hero-card::after{
+  opacity: .18 !important;
+}
+
+.hero-media,
+.hero-illust{
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+.hero-media .hero-img,
+.hero-illust img,
+.hero-media img[src*="anemone"],
+.hero-media img[src*="anemones"]{
+  border-radius: 26px !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  box-shadow: 0 16px 40px rgba(43,38,28,.08) !important;
+}
+
+/* Remove legacy dark-looking surfaces that still sneak in */
+.card,
+.place-card,
+.memorial-shell,
+.id-card,
+.story-section,
+.links-section,
+.mapbox,
+.directory li,
+.people-grid .person-card,
+.names-grid .person-card{
+  background-color: rgba(255,253,249,.96) !important;
+  background-image: none !important;
+}
+
+/* Safer mobile */
+@media (max-width: 780px){
+  .memorial-shell{ padding: 18px !important; border-radius: 22px !important; }
+  .memorial-header h1{ font-size: 2rem !important; }
+  .id-card{ position: static !important; top: auto !important; }
+  .navigation-links a{ min-width: 0 !important; width: 100% !important; }
+  .person-actions .btn{ flex-basis: 100% !important; }
+}
