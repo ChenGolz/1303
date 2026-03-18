@@ -133,13 +133,16 @@
         if(!m) return;
         const id = m[1];
 
-        // derive relative prefix from link (people.html vs /place/* etc.)
-        let prefix = '';
-        if(href.startsWith('../')) prefix = '../';
-        else if(href.startsWith('../../')) prefix = '../../';
+        const assetBase = (() => {
+          try{
+            return new URL(`../assets/`, new URL(href, location.href)).pathname;
+          }catch(e){
+            return 'assets/';
+          }
+        })();
 
         card.classList.add('memorial-card');
-        card.style.setProperty('--card-bg', `url(${prefix}assets/people/${id}.jpg), url(${prefix}assets/og-person/${id}.png)`);
+        card.style.setProperty('--card-bg', `url(${assetBase}people/${id}.jpg), url(${assetBase}og-person/${id}.png)`);
 
         // make whole card clickable
         card.addEventListener('click', (e)=>{

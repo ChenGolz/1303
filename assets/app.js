@@ -472,11 +472,7 @@ async function initField() {
     let arr = nodes;
     if (pl) arr = arr.filter(n => n.place === pl);
     if (q) {
-      const qq = q.toLowerCase();
-      arr = arr.filter(n =>
-        (n.name || "").toLowerCase().includes(qq) ||
-        (n.desc || "").toLowerCase().includes(qq)
-      );
+      arr = arr.filter(n => matchesQuery(n, q));
     }
     return arr;
   }
@@ -1198,7 +1194,7 @@ async function initPersonPage() {
 
   // הגבלה עדינה: נר אחד ליום למכשיר (לא מושלם, אבל מפחית ספאם)
   const throttleKey = `candle_throttle_${id}`;
-  const lastYmd = loadLocal(throttleKey, "");
+  let lastYmd = loadLocal(throttleKey, "");
 
   async function renderSharedCandle() {
     const client = supa();
@@ -1209,6 +1205,12 @@ async function initPersonPage() {
       .maybeSingle();
     const c = data?.count ?? 0;
     if (candleCount) candleCount.textContent = `${c} נרות הודלקו (סה״כ)`;
+    const alreadyLitToday = loadLocal(throttleKey, "") === ymdNow();
+    candle?.classList.toggle("is-lit", alreadyLitToday);
+    if (candleBtn) {
+      candleBtn.disabled = alreadyLitToday;
+      candleBtn.textContent = alreadyLitToday ? "הנר הודלק היום" : "הדלק/י נר";
+    }
   }
 
   function renderLocalCandle() {
@@ -1237,6 +1239,7 @@ async function initPersonPage() {
     if (lastYmd === today) {
       if (candleCount) candleCount.textContent = "כבר הודלק נר היום במכשיר זה. תודה.";
       candle?.classList.add("is-lit");
+      if (candleBtn) candleBtn.disabled = true;
       return;
     }
 
@@ -1248,7 +1251,9 @@ async function initPersonPage() {
       return;
     }
     saveLocal(throttleKey, today);
+    lastYmd = today;
     candle?.classList.add("is-lit");
+    if (candleBtn) candleBtn.disabled = true;
     if (candleCount) candleCount.textContent = `${data ?? "—"} נרות הודלקו (סה״כ)`;
   }
 
